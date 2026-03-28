@@ -22,7 +22,7 @@
             cursor: default;
         }
 
-        /* Живой детализированный фон с облаками, бликами, без травы */
+        /* Живой детализированный фон с облаками, бликами */
         .living-bg {
             position: fixed;
             top: 0;
@@ -151,7 +151,7 @@
             }
         }
 
-        /* Декоративные воздушные линии (легкое движение) */
+        /* Декоративные воздушные линии */
         .air-line {
             position: absolute;
             height: 1px;
@@ -203,7 +203,7 @@
             transform: scale(1.02);
         }
 
-        /* Cursor Glow — нежно-голубой */
+        /* Cursor Glow */
         .cursor-glow {
             position: fixed;
             width: 250px;
@@ -217,7 +217,7 @@
         }
 
         .content {
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
             padding: 0px 10px 30px 10px;
             display: flex;
@@ -429,7 +429,7 @@
             border-radius: 2px;
         }
 
-        /* Pricing Cards */
+        /* Pricing Cards - 4 карточки в ряд на больших экранах */
         .pricing {
             width: 100%;
             margin-bottom: 42px;
@@ -437,16 +437,16 @@
 
         .pricing-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
             width: 100%;
         }
 
         .pricing-card {
             background: rgba(255, 252, 245, 0.88);
             backdrop-filter: blur(8px);
-            border-radius: 28px;
-            padding: 20px 12px;
+            border-radius: 24px;
+            padding: 16px 10px;
             text-align: center;
             border: 1px solid rgba(100, 160, 180, 0.4);
             transition: all 0.4s ease;
@@ -468,36 +468,54 @@
             position: relative;
         }
 
+        .pricing-card.free {
+            border: 1px solid #9ac2d0;
+            background: rgba(245, 255, 250, 0.9);
+        }
+
         .popular-badge {
             position: absolute;
             top: -10px;
-            right: 12px;
+            right: 8px;
             background: #ffe0b5;
             color: #7a6a4a;
-            padding: 3px 12px;
+            padding: 3px 10px;
             border-radius: 30px;
-            font-size: 0.55rem;
+            font-size: 0.5rem;
             font-weight: 700;
             letter-spacing: 0.5px;
             box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .free-badge {
+            position: absolute;
+            top: -10px;
+            left: 8px;
+            background: #c0e0ec;
+            color: #4a7c8c;
+            padding: 3px 10px;
+            border-radius: 30px;
+            font-size: 0.5rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .pricing-name {
             font-size: 0.85rem;
             font-weight: 700;
             color: #4a7c8c;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .pricing-price {
-            font-size: 1.55rem;
+            font-size: 1.3rem;
             font-weight: 800;
             color: #5f8fa0;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .pricing-price span {
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             font-weight: 400;
             color: #8ab0c0;
         }
@@ -510,7 +528,7 @@
         .pricing-features li {
             color: #6e9eb0;
             padding: 4px 0;
-            font-size: 0.5rem;
+            font-size: 0.48rem;
             transition: transform 0.2s;
         }
 
@@ -629,6 +647,24 @@
             border-radius: 10px;
         }
 
+        /* Адаптивность для 4 карточек */
+        @media (max-width: 650px) {
+            .pricing-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            .content {
+                max-width: 550px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+        }
+
         @media (max-width: 768px) {
             .content { padding: 0px 8px 25px; }
             .clock { top: 12px; left: 12px; font-size: 0.7rem; padding: 4px 10px; }
@@ -691,13 +727,24 @@
         <div class="pricing">
             <h2 class="section-title">Выберите тариф</h2>
             <div class="pricing-grid">
+                <!-- FREE тариф на 7 дней -->
+                <div class="pricing-card free">
+                    <div class="free-badge">🎁 Пробный</div>
+                    <div class="pricing-name">FREE</div>
+                    <div class="pricing-price">7 дней<span> бесплатно</span></div>
+                    <ul class="pricing-features">
+                        <li>✓ Обычная скорость</li>
+                        <li>✓ 10+ серверов</li>
+                        <li>✓ Поддержка 24/7</li>
+                    </ul>
+                </div>
                 <div class="pricing-card">
                     <div class="pricing-name">Месяц</div>
                     <div class="pricing-price">49 ⭐️<span>/мес</span></div>
                     <ul class="pricing-features">
                         <li>✓ Неограниченный трафик</li>
-                        <li>✓ Обычная скорость</li>
-                        <li>✓ 10+ серверов</li>
+                        <li>✓ Высокая скорость</li>
+                        <li>✓ 10+ стран</li>
                         <li>✓ Поддержка 24/7</li>
                     </ul>
                 </div>
@@ -709,7 +756,7 @@
                         <li>✓ Экономия ~19%</li>
                         <li>✓ Неограниченный трафик</li>
                         <li>✓ Высокая скорость</li>
-                        <li>✓ 25+ серверов</li>
+                        <li>✓ 10+ стран</li>
                         <li>✓ Поддержка 24/7</li>
                     </ul>
                 </div>
@@ -719,8 +766,8 @@
                     <ul class="pricing-features">
                         <li>✓ Экономия ~24%</li>
                         <li>✓ Неограниченный трафик</li>
-                        <li>✓ Очень быстрая скорость</li>
-                        <li>✓ 50+ серверов</li>
+                        <li>✓ Высокая скорость</li>
+                        <li>✓ 10+ стран</li>
                         <li>✓ Поддержка 24/7</li>
                     </ul>
                 </div>
@@ -765,7 +812,7 @@
             cloudsContainer.appendChild(cloud);
         }
 
-        // Воздушные пузырьки
+        // Пузырьки
         const bubblesContainer = document.getElementById('bubblesContainer');
         const bubbleCount = 40;
         for (let i = 0; i < bubbleCount; i++) {
@@ -781,7 +828,7 @@
             bubblesContainer.appendChild(bubble);
         }
 
-        // Солнечные блики
+        // Блики
         const gleamContainer = document.getElementById('gleamContainer');
         const gleamCount = 15;
         for (let i = 0; i < gleamCount; i++) {
@@ -797,7 +844,7 @@
             gleamContainer.appendChild(gleam);
         }
 
-        // Воздушные линии (декор)
+        // Воздушные линии
         const airLinesContainer = document.getElementById('airLinesContainer');
         const lineCount = 25;
         for (let i = 0; i < lineCount; i++) {
