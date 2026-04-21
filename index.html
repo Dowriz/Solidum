@@ -133,7 +133,7 @@
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 1.8rem;
-            margin-top: 0.5rem;
+            margin-top: 2rem;
         }
 
         .card {
@@ -144,6 +144,11 @@
             text-align: center;
             border: 1px solid rgba(0, 238, 190, 0.75);
             box-shadow: 0 10px 25px -8px rgba(0,0,0,0.4);
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
         }
 
         .card i {
@@ -169,6 +174,20 @@
             line-height: 1.4;
         }
 
+        .subscribe-info {
+            margin-top: 2.5rem;
+            padding: 1rem;
+            background: rgba(0, 238, 190, 0.1);
+            border-radius: 40px;
+            border: 1px solid rgba(0, 238, 190, 0.4);
+            display: inline-block;
+        }
+
+        .subscribe-info span {
+            color: #00eebe;
+            font-weight: bold;
+        }
+
         #snowCanvas {
             position: fixed;
             top: 0;
@@ -191,7 +210,6 @@
             .cards-container {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 1rem;
-                margin-top: 0.5rem;
             }
             .content {
                 padding: 1.5rem 1rem 4rem 1rem;
@@ -211,7 +229,6 @@
             .telegram-bar {
                 padding: 0.7rem 1.5rem;
                 gap: 0.7rem;
-                margin-bottom: 0.8rem;
             }
             .telegram-bar i {
                 font-size: 1.4rem;
@@ -281,83 +298,124 @@
             <p>Никаких логов, полная конфиденциальность</p>
         </div>
     </div>
+
+    <div class="subscribe-info">
+        📅 Подписка активна до: <span>24.04.2026</span> ✅
+    </div>
 </div>
 
 <script>
-    (function() {
-        const canvas = document.getElementById('snowCanvas');
-        let ctx = canvas.getContext('2d');
-        let width = window.innerWidth;
-        let height = window.innerHeight;
-        let snowflakes = [];
+// ВШИТЫЙ ТЕКСТ ДЛЯ HAPP (ВСЕ ТВОИ ССЫЛКИ)
+const TEXT_DATA = `#profile-title: ⚡️ SolidumVPN | Пробная подписка 🔥
+#profile-web-page-url: https://solidum.onrender.com/
+#subscription-userinfo: expire=1776988800
 
-        function resizeCanvas() {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            canvas.width = width;
-            canvas.height = height;
+vless://a92054b0-a94d-47dd-9318-0d008b969f09@play.funvideorus.net:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=deepl.com&fp=chrome&pbk=vnjp7zIK2H3CGdjSis_79KXqS6IG-opmpbETPUD-EC8&sid=15affa0af66dfc79&type=tcp&headerType=none#🇩🇪 Германия | Белые списки 🏳️‍
+vless://a92054b0-a94d-47dd-9318-0d008b969f09@niderland.funvideorus.net:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=deepl.com&fp=chrome&pbk=vnjp7zIK2H3CGdjSis_79KXqS6IG-opmpbETPUD-EC8&sid=15affa0af66dfc79&type=tcp&headerType=none#🇳🇱 Нидерланды | Белые списки 🏳️‍
+vless://a92054b0-a94d-47dd-9318-0d008b969f09@vd.funvideorus.net:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=deepl.com&fp=chrome&pbk=vnjp7zIK2H3CGdjSis_79KXqS6IG-opmpbETPUD-EC8&sid=15affa0af66dfc79&type=tcp&headerType=none#🇷🇺 Россия | Белые списки 🏳️‍
+vless://a92054b0-a94d-47dd-9318-0d008b969f09@usa.funvideorus.net:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=deepl.com&fp=chrome&pbk=vnjp7zIK2H3CGdjSis_79KXqS6IG-opmpbETPUD-EC8&sid=15affa0af66dfc79&type=tcp&headerType=none#🇺🇸 США | Белые списки 🏳️‍
+vless://a92054b0-a94d-47dd-9318-0d008b969f09@play.funvideorus.net:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=deepl.com&fp=chrome&pbk=vnjp7zIK2H3CGdjSis_79KXqS6IG-opmpbETPUD-EC8&sid=15affa0af66dfc79&type=tcp&headerType=none#🇩🇪⚡️ Германия 🔥
+vless://a92054b0-a94d-47dd-9318-0d008b969f09@vk-clips.funvideorus.net:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=vk-clips.funvideorus.net&fp=chrome&pbk=CgCNrtbyuwFTfRlo-7jahWxpTEwtDFFF7W2Qhf2O1XY&sid=19b4ec7cb90e61&type=tcp&headerType=none#🇩🇪 Германия
+vless://a92054b0-a94d-47dd-9318-0d008b969f09@niderland.funvideorus.net:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=deepl.com&fp=chrome&pbk=vnjp7zIK2H3CGdjSis_79KXqS6IG-opmpbETPUD-EC8&sid=15affa0af66dfc79&type=tcp&headerType=none#🇳🇱⚡️ Нидерланды 🔥
+vless://a92054b0-a94d-47dd-9318-0d008b969f09@niderland.funvideorus.net:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=deepl.com&fp=chrome&pbk=vnjp7zIK2H3CGdjSis_79KXqS6IG-opmpbETPUD-EC8&sid=15affa0af66dfc79&type=tcp&headerType=none#🇳🇱 Нидерланды
+vless://a92054b0-a94d-47dd-9318-0d008b969f09@polka.funvideorus.net:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=deepl.com&fp=chrome&pbk=vnjp7zIK2H3CGdjSis_79KXqS6IG-opmpbETPUD-EC8&sid=15affa0af66dfc79&type=tcp&headerType=none#🇵🇱 Польша
+vless://a92054b0-a94d-47dd-9318-0d008b969f09@ru.funvideorus.net:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=ru.funvideorus.net&fp=chrome&pbk=vnjp7zIK2H3CGdjSis_79KXqS6IG-opmpbETPUD-EC8&sid=15affa0af66dfc79&type=tcp&headerType=none#🇷🇺⚡️ Россия 🔥
+vless://a92054b0-a94d-47dd-9318-0d008b969f09@usa.funvideorus.net:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=deepl.com&fp=chrome&pbk=vnjp7zIK2H3CGdjSis_79KXqS6IG-opmpbETPUD-EC8&sid=15affa0af66dfc79&type=tcp&headerType=none#🇺🇸⚡️ США 🔥
+vless://a92054b0-a94d-47dd-9318-0d008b969f09@usa.funvideorus.net:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=deepl.com&fp=chrome&pbk=vnjp7zIK2H3CGdjSis_79KXqS6IG-opmpbETPUD-EC8&sid=15affa0af66dfc79&type=tcp&headerType=none#🇺🇸 США 🔥
+vless://a92054b0-a94d-47dd-9318-0d008b969f09@usa.fastexte.pro:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=usa.fastexte.pro&fp=chrome&pbk=vnjp7zIK2H3CGdjSis_79KXqS6IG-opmpbETPUD-EC8&sid=15affa0af66dfc79&type=tcp&headerType=none#🇺🇸 США 🔥
+vless://a92054b0-a94d-47dd-9318-0d008b969f09@sweds.funvideorus.net:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=deepl.com&fp=chrome&pbk=vnjp7zIK2H3CGdjSis_79KXqS6IG-opmpbETPUD-EC8&sid=15affa0af66dfc79&type=tcp&headerType=none#🇸🇪⚡️ Швеция 🔥
+vless://a92054b0-a94d-47dd-9318-0d008b969f09@45.12.143.73:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=deepl.com&fp=chrome&pbk=vnjp7zIK2H3CGdjSis_79KXqS6IG-opmpbETPUD-EC8&sid=15affa0af66dfc79&type=tcp&headerType=none#🇹🇷 Турция`;
+
+// ОПРЕДЕЛЯЕМ, КТО ПРИШЁЛ
+const ua = navigator.userAgent;
+const isApp = ua.includes('HAPP') || ua.includes('NekoBox') || ua.includes('v2rayNG') || ua.includes('Sing-box') || ua.includes('Clash') || ua.includes('Matsuri') || ua.includes('SagerNet');
+
+if (isApp) {
+    // Для HAPP и приложений — отдаём чистый текст
+    document.body.innerHTML = `<pre style="background:#fff;color:#000;padding:20px;font-family:monospace;white-space:pre-wrap;word-wrap:break-word;margin:0;min-height:100vh;">${TEXT_DATA}</pre>`;
+    document.body.style.background = '#fff';
+    document.body.style.margin = '0';
+} else {
+    // Для браузеров — панель (уже отрисована)
+    console.log('Панель для браузера');
+}
+
+// Снег (оставляем для красоты)
+(function() {
+    const canvas = document.getElementById('snowCanvas');
+    if (!canvas) return;
+    let ctx = canvas.getContext('2d');
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let snowflakes = [];
+
+    function resizeCanvas() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+    }
+
+    class Snow {
+        constructor() {
+            this.x = Math.random() * width;
+            this.y = Math.random() * height;
+            this.radius = Math.random() * 1.0 + 0.5;
+            this.speedY = Math.random() * 0.7 + 0.3;
+            this.speedX = (Math.random() - 0.5) * 0.2;
+            this.opacity = Math.random() * 0.4 + 0.15;
         }
-
-        class Snow {
-            constructor() {
+        update() {
+            this.y += this.speedY;
+            this.x += this.speedX;
+            if (this.y > height + 10) {
+                this.y = -10;
                 this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.radius = Math.random() * 1.0 + 0.5;
-                this.speedY = Math.random() * 0.7 + 0.3;
-                this.speedX = (Math.random() - 0.5) * 0.2;
-                this.opacity = Math.random() * 0.4 + 0.15;
             }
-            update() {
-                this.y += this.speedY;
-                this.x += this.speedX;
-                if (this.y > height + 10) {
-                    this.y = -10;
-                    this.x = Math.random() * width;
-                }
-                if (this.x > width + 15) this.x = -15;
-                if (this.x < -15) this.x = width + 15;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 250, ${this.opacity})`;
-                ctx.fill();
-            }
+            if (this.x > width + 15) this.x = -15;
+            if (this.x < -15) this.x = width + 15;
         }
-
-        function initSnow(count) {
-            snowflakes = [];
-            for (let i = 0; i < count; i++) {
-                snowflakes.push(new Snow());
-            }
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 250, ${this.opacity})`;
+            ctx.fill();
         }
+    }
 
-        function animateSnow() {
-            ctx.clearRect(0, 0, width, height);
-            for (let flake of snowflakes) {
-                flake.update();
-                flake.draw();
-            }
-            requestAnimationFrame(animateSnow);
+    function initSnow(count) {
+        snowflakes = [];
+        for (let i = 0; i < count; i++) {
+            snowflakes.push(new Snow());
         }
+    }
 
-        function handleResize() {
-            resizeCanvas();
-            let newCount = Math.floor((width * height) / 2500);
-            newCount = Math.min(500, Math.max(200, newCount));
-            initSnow(newCount);
+    function animateSnow() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, width, height);
+        for (let flake of snowflakes) {
+            flake.update();
+            flake.draw();
         }
+        requestAnimationFrame(animateSnow);
+    }
 
+    function handleResize() {
+        resizeCanvas();
+        let newCount = Math.floor((width * height) / 2500);
+        newCount = Math.min(500, Math.max(200, newCount));
+        initSnow(newCount);
+    }
+
+    if (canvas) {
         resizeCanvas();
         let snowCount = Math.floor((width * height) / 2500);
         snowCount = Math.min(500, Math.max(200, snowCount));
         initSnow(snowCount);
         animateSnow();
-
-        window.addEventListener('resize', () => {
-            handleResize();
-        });
-    })();
+        window.addEventListener('resize', handleResize);
+    }
+})();
 </script>
 
 </body>
